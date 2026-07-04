@@ -1,0 +1,23 @@
+CUDA_VISIBLE_DEVICES=0 \
+swift sft \
+    --model ~/qwen3-0.6b \
+    --train_type lora \
+    --dataset ~/train_binary_65535_1200.jsonl \
+    --val_dataset ~/test_binary_65535_1200.jsonl \
+    --num_train_epochs 4 \
+    --per_device_train_batch_size 1 \
+    --per_device_eval_batch_size 1 \
+    --gradient_accumulation_steps 4 \
+    --learning_rate 1e-4 \
+    --lora_rank 8 \
+    --lora_alpha 32 \
+    --target_modules all-linear \
+    --metric_for_best_model token_acc \
+    --lr_scheduler_type cosine \
+    --eval_steps 100 \
+    --save_steps 100 \
+    --save_total_limit 5 \
+    --logging_steps 100 \
+    --output_dir output_qwen \
+    --dataloader_num_workers 32 \
+    --deepspeed zero3
